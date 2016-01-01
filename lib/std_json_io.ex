@@ -56,16 +56,16 @@ defmodule StdJsonIo do
         end
       end
 
-      def json_call!(args) do
-        case json_call(args) do
+      def json_call!(map, timeout \\ 10000) do
+        case json_call(map, timeout) do
           {:ok, data} -> data
           {:error, reason } -> raise "Failed to call to json service #{__MODULE__} #{to_string(reason)}"
         end
       end
 
-      def json_call(args) do
+      def json_call(map, timeout \\ 10000) do
         result = :poolboy.transaction(@pool_name, fn worker ->
-          GenServer.call(worker, {:json, args})
+          GenServer.call(worker, {:json, map}, timeout)
         end)
 
         case result do
