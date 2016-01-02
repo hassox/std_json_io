@@ -19,8 +19,10 @@ defmodule StdJsonIo.Worker do
       {:ok, json} ->
         Proc.send_input(state.js_proc, json)
         receive do
-          {_js_pid, :data, :out, msg} -> {:reply, {:ok, msg}, state}
-          response -> {:reply, {:error, response}, state}
+          {_js_pid, :data, :out, msg} ->
+            {:reply, {:ok, msg}, state}
+          response ->
+            {:reply, {:error, response}, state}
         end
     end
   end
