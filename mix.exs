@@ -9,7 +9,7 @@ defmodule StdJsonIo.Mixfile do
     [app: :std_json_io,
      name: "StdJsonIo",
      version: @version,
-     package: @package,
+     package: package(),
      elixir: "~> 1.1",
      source_url: @url,
      build_embedded: Mix.env == :prod,
