@@ -30,17 +30,17 @@ defmodule StdJsonIo.Worker do
   def handle_call(:stop, _from, state), do: {:stop, :normal, :ok, state}
 
   # The js server has stopped
-  def handle_info({js_pid, :result, %Result{err: _, status: status}} = msg, state) do
+  def handle_info({_js_pid, :result, %Result{err: _, status: _status}}, state) do
     {:stop, :normal, state}
   end
 
-  def terminate(reason, %{js_proc: server} = state) do
+  def terminate(_reason, %{js_proc: server}) do
     Proc.signal(server, :kill)
     Proc.stop(server)
     :ok
   end
 
-  def terminate(reason, state), do: :ok
+  def terminate(_reason, _state), do: :ok
 
   defp start_io_server(script) do
     Porcelain.spawn_shell(script, in: :receive, out: {:send, self()})
