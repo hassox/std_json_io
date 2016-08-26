@@ -22,7 +22,10 @@ defmodule StdJsonIo.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :porcelain]]
+    [
+      applications: [:logger, :porcelain],
+      included_applications: [:fs]
+    ]
   end
 
   def docs do
